@@ -11,11 +11,6 @@ const { has } = require('@ember/edition-utils');
 
 const OCTANE = has('octane');
 
-// TODO: this should be reading from the @ember/canary-features module
-// need to refactor broccoli/features.js to be able to work more similarly
-// to https://github.com/emberjs/data/pull/6231
-const EMBER_GLIMMER_SET_COMPONENT_TEMPLATE = true;
-
 // intentionally avoiding use-edition-detector
 module.exports = {
   description: 'Generates a component class.',
@@ -69,13 +64,13 @@ module.exports = {
       }
     });
 
-    this.EMBER_GLIMMER_SET_COMPONENT_TEMPLATE = EMBER_GLIMMER_SET_COMPONENT_TEMPLATE || isOctane;
+    this.isOctane = isOctane;
   },
 
   install() {
-    if (!this.EMBER_GLIMMER_SET_COMPONENT_TEMPLATE) {
+    if (!this.isOctane) {
       throw new SilentError(
-        'Usage of `ember generate component-class` is only available on canary'
+        'Usage of `ember generate component-class` is only available in Ember Octane. Check to make sure that the "ember.edition" field of your package.json is set to "octane"'
       );
     }
 
